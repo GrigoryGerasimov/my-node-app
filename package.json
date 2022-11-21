@@ -1,0 +1,31 @@
+{
+  "name": "my-node-app",
+  "version": "1.0.0",
+  "description": "my first nodejs app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GrigoryGerasimov/my-node-app.git"
+  },
+  "keywords": [
+    "nodejs",
+    "js",
+    "app",
+    "learning",
+    "nodejs"
+  ],
+  "author": "Grigory Gerasimov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GrigoryGerasimov/my-node-app/issues"
+  },
+  "homepage": "https://github.com/GrigoryGerasimov/my-node-app#readme",
+  "dependencies": {
+    "@types/yargs": "^17.0.13",
+    "chalk": "^4.1.2",
+    "yargs": "^17.6.2"
+  }
+}
