@@ -2,7 +2,7 @@ const fs = require("fs/promises");
 const path = require("path");
 const chalk = require("chalk");
 
-const noteBase = require("../db.json");
+const noteBase = require("./db.json");
 const pathName = path.join(__dirname, "db.json");
 
 const add = async title => {
