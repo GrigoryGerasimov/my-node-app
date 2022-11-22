@@ -1,5 +1,5 @@
 const yargs = require("yargs");
-const pckg = require("./package.json");
+const pckg = require("../package.json");
 const { add, read, printStyled, remove } = require("./module");
 
 yargs.version(pckg.version);
