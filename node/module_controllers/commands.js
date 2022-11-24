@@ -29,6 +29,19 @@ const createNewDir = async newDirPath => {
     }
 };
 
+const writeIntoDB = async file => {
+    const DB_PATH = "./os/osInfo.json";
+    const DB = require(DB_PATH);
+    DB.push(JSON.stringify(file));
+    try {
+        await fs.writeFile(path.resolve(__dirname, DB_PATH), JSON.stringify(DB));
+    } catch (error) {
+        console.log(chalk.red(error));
+    } finally {
+        console.log(chalk.magenta("command completed"));
+    }
+}
+
 const readFromFile = async filePath => {
     try {
         const result = await fs.readFile(filePath, { encoding: "utf-8" });
@@ -98,6 +111,7 @@ const rename = async (oldPath, newPath) => {
 module.exports = {
     createNewDir,
     createNewFile,
+    writeIntoDB,
     readFromFile,
     removeFile,
     removeDir,

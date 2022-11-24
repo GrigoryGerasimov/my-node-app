@@ -10,5 +10,20 @@
 </head>
 <body>
 <h1>Your current OS</h1>
+<fieldset>
+    <legend>Your Current OS</legend>
+    <form action="/" method="post" enctype="application/x-www-form-urlencoded">
+        <div>
+            <label for="param">Parameter</label>
+            <input id="param" name="param" type="text" required/>
+        </div>
+        <div>
+            <label for="content">Content</label>
+            <input id="content" name="content" type="text" required/>
+        </div>
+        <button type="submit">Save</button>
+    </form>
+</fieldset>
+<button type="button">Show info</button>
 </body>
 </html>
