@@ -29,10 +29,15 @@ const createNewDir = async newDirPath => {
     }
 };
 
-const readFromFile = async fileName => {
+const readFromFile = async filePath => {
     try {
-        const result = await fs.readFile(path.join(__dirname, fileName), { encoding: "utf-8" });
-        console.log(chalk.green(JSON.parse(result)));
+        const result = await fs.readFile(filePath, { encoding: "utf-8" });
+        if (path.extname(filePath) === ".html") {
+            return result;
+        } else {
+            console.log(chalk.green(JSON.parse(result)));
+            return JSON.parse(result);
+        }
     } catch (error) {
         console.log(chalk.red(error));
     } finally {
