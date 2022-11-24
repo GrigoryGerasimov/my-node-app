@@ -31,7 +31,7 @@ const createNewDir = async newDirPath => {
 
 const writeIntoDB = async file => {
     const DB_PATH = "./os/osInfo.json";
-    const DB = require(DB_PATH);
+    const DB = require(DB_PATH) || [];
     DB.push(JSON.stringify(file));
     try {
         await fs.writeFile(path.resolve(__dirname, DB_PATH), JSON.stringify(DB));
