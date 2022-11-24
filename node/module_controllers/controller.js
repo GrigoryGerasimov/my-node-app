@@ -31,15 +31,15 @@ const osInfo = {
 yargs.command({
     command: "newdir",
     builder: {
-        newdirname: {
+        newdirpath: {
             type: "string",
-            description: "new directory name",
+            description: "new directory path",
             demandOption: true
         }
     },
     description: "create a new directory",
-    async handler({ newdirname }) {
-        await createNewDir(newdirname);
+    async handler({ newdirpath }) {
+        await createNewDir(path.resolve(__dirname, newdirpath));
     }
 });
 
@@ -54,12 +54,17 @@ yargs.command({
         newfiletext:{
             type: "string",
             description: "new file text",
+            demandOption: false
+        },
+        dirpath: {
+            type: "string",
+            description: "new file dir path",
             demandOption: true
         }
     },
     description: "new file",
-    async handler({ newfilename, newfiletext }) {
-        await createNewFile(__dirname, newfilename, newfiletext);
+    async handler({ dirpath, newfilename, newfiletext }) {
+        await createNewFile(path.resolve(__dirname, dirpath), newfilename, newfiletext);
     }
 })
 

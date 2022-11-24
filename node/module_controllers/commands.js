@@ -3,7 +3,7 @@ const fs = require("fs/promises");
 const path = require("path");
 const chalk = require("chalk");
 
-const createNewFile = async (dirPath, fileName, fileText) => {
+const createNewFile = async (dirPath, fileName, fileText = "") => {
     const newFilePath = path.resolve(dirPath, fileName);
     try {
         if (!fsSync.existsSync(newFilePath)) {
@@ -14,8 +14,7 @@ const createNewFile = async (dirPath, fileName, fileText) => {
     }
 };
 
-const createNewDir = async dirName => {
-    const newDirPath = path.resolve(__dirname, dirName);
+const createNewDir = async newDirPath => {
     try {
         if (!fsSync.existsSync(newDirPath)) {
             await fs.mkdir(newDirPath);
