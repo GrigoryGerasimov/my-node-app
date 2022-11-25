@@ -2,7 +2,6 @@ const fsSync = require("fs");
 const fs = require("fs/promises");
 const path = require("path");
 const chalk = require("chalk");
-const os = require("os");
 const { osInfo } = require("./db_initialstate.js");
 
 const createNewFile = async (dirPath, fileName, fileText = "") => {
@@ -25,7 +24,7 @@ const createNewDir = async newDirPath => {
         } else {
             await createNewFile(newDirPath, "init.txt", "Already existing folder initialized");
             return newDirPath
-        };
+        }
     } finally {
         console.log(chalk.magenta("command completed"));
     }
@@ -43,6 +42,17 @@ const writeIntoDB = file => {
         console.log(chalk.magenta("command completed"));
     }
 }
+
+const removeFromDB = async fileKey => {
+    const DB_PATH = "./os/osInfo.json";
+    const DB = require(DB_PATH);
+    const updatedDB = DB.filter(item => {
+        for (const itemKey in JSON.parse(item)) {
+            if (itemKey !== fileKey) return true;
+        }
+    });
+    await fs.writeFile(path.resolve(__dirname, DB_PATH), JSON.stringify(updatedDB));
+};
 
 const initDB = () => {
     const DB = require("./os/osInfo.json");
@@ -120,6 +130,7 @@ module.exports = {
     createNewDir,
     createNewFile,
     writeIntoDB,
+    removeFromDB,
     initDB,
     readFromFile,
     removeFile,

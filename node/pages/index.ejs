@@ -11,7 +11,7 @@
 </head>
 <body class="w-full">
 <% if (createdStamp) { %>
-<div>New property has been successfully added</div>
+    <div class="w-full fixed top-0 left-0 z-50 p-[30px] bg-green-500 text-white text-xl"><%= labelCreated %></div>
 <% } %>
 <fieldset class="w-[50%] my-[75px] mx-auto flex flex-column justify-center drop-shadow-lg">
     <legend class="text-2xl text-gray-800 text-opacity-95 py-[40px]"><%= legend %></legend>
@@ -35,10 +35,11 @@
             for (const key in prop) { %>
         <li class="flex flex-row flex-wrap justify-between items-baseline py-[25px]">
             <span class="text-xl text-gray-700 text-opacity-95 py-[5px]"><%= key %> : <%= prop[key] %></span>
-            <button type="button" data-type="remove" data-id="" class="my-[10px] px-[20px] py-[10px] bg-red-500 hover:bg-red-700 text-white rounded-md">&times;</button>
+            <button type="button" data-type="remove" data-key="<%= key %>" class="my-[10px] px-[20px] py-[10px] bg-red-500 hover:bg-red-700 text-white rounded-md">&times;</button>
         </li>
     <% }
     } %>
 </ul>
+<script src="/app.js"></script>
 </body>
 </html>
