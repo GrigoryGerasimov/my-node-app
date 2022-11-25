@@ -35,13 +35,32 @@ const writeIntoDB = file => {
     const DB = require(DB_PATH);
     DB.push(JSON.stringify(file));
     try {
-        fsSync.writeFileSync(path.resolve(__dirname, DB_PATH), JSON.stringify(DB));
+        fsSync.writeFileSync(path.resolve(__dirname, DB_PATH), JSON.stringify([...new Set(DB)]));
     } catch (error) {
         console.log(chalk.red(error));
     } finally {
         console.log(chalk.magenta("command completed"));
     }
 }
+
+const amendInDB = file => {
+    const DB_PATH = "./os/osInfo.json";
+    const DB = require(DB_PATH);
+    const amendedDB = DB.map(unit => {
+        const parsedUnit = JSON.parse(unit);
+        for (const key in parsedUnit) {
+            if (key === file.param) parsedUnit[key] = file.content;
+        }
+        return JSON.stringify(parsedUnit);
+    });
+    try {
+        fsSync.writeFileSync(path.resolve(__dirname, DB_PATH), JSON.stringify(amendedDB));
+    } catch (error) {
+        console.log(chalk.red(error));
+    } finally {
+        console.log(chalk.magenta("command completed"));
+    }
+};
 
 const removeFromDB = async fileKey => {
     const DB_PATH = "./os/osInfo.json";
@@ -130,6 +149,7 @@ module.exports = {
     createNewDir,
     createNewFile,
     writeIntoDB,
+    amendInDB,
     removeFromDB,
     initDB,
     readFromFile,

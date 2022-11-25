@@ -35,7 +35,10 @@
             for (const key in prop) { %>
         <li class="flex flex-row flex-wrap justify-between items-baseline py-[25px]">
             <span class="text-xl text-gray-700 text-opacity-95 py-[5px]"><%= key %> : <%= prop[key] %></span>
-            <button type="button" data-type="remove" data-key="<%= key %>" class="my-[10px] px-[20px] py-[10px] bg-red-500 hover:bg-red-700 text-white rounded-md">&times;</button>
+            <div>
+                <button type="button" data-type="edit" data-key="<%= key %>" class="my-[10px] px-[20px] py-[10px] bg-yellow-700 hover:bg-yellow-900 text-white rounded-md"><%= btnEdit %></button>
+                <button type="button" data-type="remove" data-key="<%= key %>" class="my-[10px] px-[20px] py-[10px] bg-red-500 hover:bg-red-700 text-white rounded-md">&times;</button>
+            </div>
         </li>
     <% }
     } %>

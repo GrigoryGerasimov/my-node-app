@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 const chalk = require("chalk");
-const { writeIntoDB, removeFromDB, readFromFile, initDB } = require("../module_controllers/commands.js");
+const { writeIntoDB, amendInDB, removeFromDB, readFromFile, initDB } = require("../module_controllers/commands.js");
 
 const port = 3000;
 
@@ -14,6 +14,7 @@ app.use(express.static(path.resolve(__dirname, "../public")));
 app.use(express.urlencoded({
     extended: true
 }));
+app.use(express.json());
 
 app.get("/", async (req, res) => {
     initDB();
@@ -23,6 +24,7 @@ app.get("/", async (req, res) => {
         labelProp: "Property",
         labelVal: "Value",
         btnSave: "Save",
+        btnEdit: "Edit",
         properties: await readFromFile(path.resolve(__dirname, "../module_controllers/os/osInfo.json")),
         createdStamp: false
     });
@@ -42,11 +44,27 @@ app.post("/", async (req, res) => {
         labelProp: "Property",
         labelVal: "Value",
         btnSave: "Save",
+        btnEdit: "Edit",
         properties: await readFromFile(path.resolve(__dirname, "../module_controllers/os/osInfo.json")),
         createdStamp: true,
         labelCreated: "New property has been successfully added"
     })
     // res.send("Congratulations! Your information has been successfully added into OS database");
+});
+
+app.put("/", async (req, res) => {
+    const { param, content } = req.body;
+    amendInDB({ param, content });
+    res.render("../pages/index",{
+        title: "OS Info App",
+        legend: "Your Current OS",
+        labelProp: "Property",
+        labelVal: "Value",
+        btnSave: "Save",
+        btnEdit: "Edit",
+        properties: await readFromFile(path.resolve(__dirname, "../module_controllers/os/osInfo.json")),
+        createdStamp: false
+    })
 });
 
 app.delete("/:key", async (req, res) => {
@@ -57,6 +75,7 @@ app.delete("/:key", async (req, res) => {
         labelProp: "Property",
         labelVal: "Value",
         btnSave: "Save",
+        btnEdit: "Edit",
         properties: await readFromFile(path.resolve(__dirname, "../module_controllers/os/osInfo.json")),
         createdStamp: false
     })
