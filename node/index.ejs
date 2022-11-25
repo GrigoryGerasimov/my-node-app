@@ -14,14 +14,14 @@
 <div>New property has been successfully added</div>
 <% } %>
 <fieldset class="w-[50%] my-[75px] mx-auto flex flex-column justify-center drop-shadow-lg">
-    <legend class="text-2xl text-gray-500 text-opacity-95 py-[40px]"><%= legend %></legend>
+    <legend class="text-2xl text-gray-800 text-opacity-95 py-[40px]"><%= legend %></legend>
     <form action="/" method="post" enctype="application/x-www-form-urlencoded" class="w-full">
         <div class="flex flex-row flex-wrap justify-between py-[25px]">
-            <label for="param" class="text-xl text-gray-400 text-opacity-95 py-[5px]"><%= labelProp %></label>
+            <label for="param" class="text-xl text-gray-700 text-opacity-95 py-[5px]"><%= labelProp %></label>
             <input id="param" name="param" type="text" class="appearance-none outline-none min-w-full p-[10px] border-b text-gray-400 border-opacity-50 rounded-lg bg-transparent" required/>
         </div>
         <div class="flex flex-row flex-wrap justify-between py-[25px]">
-            <label for="content" class="text-xl text-gray-400 text-opacity-95 py-[5px]"><%= labelVal %></label>
+            <label for="content" class="text-xl text-gray-700 text-opacity-95 py-[5px]"><%= labelVal %></label>
             <input id="content" name="content" type="text" class="appearance-none outline-none min-w-full p-[10px] border-b text-gray-400 border-opacity-50 rounded-lg bg-transparent" required/>
         </div>
         <div class="py-[40px]">
@@ -33,9 +33,9 @@
     <% for (const property of properties) {
         const prop = JSON.parse(property);
             for (const key in prop) { %>
-        <li>
-            <span><%= key %> : </span>
-            <span><%= prop[key] %></span>
+        <li class="flex flex-row flex-wrap justify-between items-baseline py-[25px]">
+            <span class="text-xl text-gray-700 text-opacity-95 py-[5px]"><%= key %> : <%= prop[key] %></span>
+            <button type="button" data-type="remove" data-id="" class="my-[10px] px-[20px] py-[10px] bg-red-500 hover:bg-red-700 text-white rounded-md">&times;</button>
         </li>
     <% }
     } %>
