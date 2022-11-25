@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="urf-8"/>
+    <meta http-equiv="x-ua-compatible" content="IE=edge, chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no"/>
+    <meta name="keywords" content="node, app"/>
+    <meta name="description" content="server testing app on NodeJS"/>
+    <title><%= title %></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="w-full">
+<% if (createdStamp) { %>
+    <div class="w-full fixed top-0 left-0 z-50 p-[30px] bg-green-500 text-white text-xl"><%= labelCreated %></div>
+<% } %>
+<fieldset class="w-[50%] my-[75px] mx-auto flex flex-column justify-center drop-shadow-lg">
+    <legend class="text-2xl text-gray-800 text-opacity-95 py-[40px]"><%= legend %></legend>
+    <form action="/" method="post" enctype="application/x-www-form-urlencoded" class="w-full">
+        <div class="flex flex-row flex-wrap justify-between py-[25px]">
+            <label for="param" class="text-xl text-gray-700 text-opacity-95 py-[5px]"><%= labelProp %></label>
+            <input id="param" name="param" type="text" class="appearance-none outline-none min-w-full p-[10px] border-b text-gray-400 border-opacity-50 rounded-lg bg-transparent" required/>
+        </div>
+        <div class="flex flex-row flex-wrap justify-between py-[25px]">
+            <label for="content" class="text-xl text-gray-700 text-opacity-95 py-[5px]"><%= labelVal %></label>
+            <input id="content" name="content" type="text" class="appearance-none outline-none min-w-full p-[10px] border-b text-gray-400 border-opacity-50 rounded-lg bg-transparent" required/>
+        </div>
+        <div class="py-[40px]">
+            <button type="submit" class="w-full my-[10px] py-[10px] bg-blue-500 hover:bg-blue-700 text-white rounded-md"><%= btnSave %></button>
+        </div>
+    </form>
+</fieldset>
+<ul class="w-[50%] my-[75px] mx-auto drop-shadow-lg">
+    <% for (const property of properties) {
+        const prop = JSON.parse(property);
+            for (const key in prop) { %>
+        <li class="flex flex-row flex-wrap justify-between items-baseline py-[25px]">
+            <span class="text-xl text-gray-700 text-opacity-95 py-[5px]"><%= key %> : <%= prop[key] %></span>
+            <div>
+                <button type="button" data-type="edit" data-key="<%= key %>" class="my-[10px] px-[20px] py-[10px] bg-yellow-700 hover:bg-yellow-900 text-white rounded-md"><%= btnEdit %></button>
+                <button type="button" data-type="remove" data-key="<%= key %>" class="my-[10px] px-[20px] py-[10px] bg-red-500 hover:bg-red-700 text-white rounded-md">&times;</button>
+            </div>
+        </li>
+    <% }
+    } %>
+</ul>
+<script src="/app.js"></script>
+</body>
+</html>
