@@ -6,27 +6,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no"/>
     <meta name="keywords" content="node, app"/>
     <meta name="description" content="server testing app on NodeJS"/>
-    <title>OS Info App</title>
+    <title><%= title %></title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="w-full">
+<% if (createdStamp) { %>
+<div>New property has been successfully added</div>
+<% } %>
 <fieldset class="w-[50%] my-[75px] mx-auto flex flex-column justify-center drop-shadow-lg">
-    <legend class="text-2xl text-gray-500 text-opacity-95 py-[40px]">Your Current OS</legend>
+    <legend class="text-2xl text-gray-500 text-opacity-95 py-[40px]"><%= legend %></legend>
     <form action="/" method="post" enctype="application/x-www-form-urlencoded" class="w-full">
         <div class="flex flex-row flex-wrap justify-between py-[25px]">
-            <label for="param" class="text-xl text-gray-400 text-opacity-95 py-[5px]">Parameter</label>
+            <label for="param" class="text-xl text-gray-400 text-opacity-95 py-[5px]"><%= labelProp %></label>
             <input id="param" name="param" type="text" class="appearance-none outline-none min-w-full p-[10px] border-b text-gray-400 border-opacity-50 rounded-lg bg-transparent" required/>
         </div>
         <div class="flex flex-row flex-wrap justify-between py-[25px]">
-            <label for="content" class="text-xl text-gray-400 text-opacity-95 py-[5px]">Content</label>
+            <label for="content" class="text-xl text-gray-400 text-opacity-95 py-[5px]"><%= labelVal %></label>
             <input id="content" name="content" type="text" class="appearance-none outline-none min-w-full p-[10px] border-b text-gray-400 border-opacity-50 rounded-lg bg-transparent" required/>
         </div>
         <div class="py-[40px]">
-            <button type="submit" class="w-full my-[10px] py-[10px] bg-green-500 hover:bg-green-700 text-white rounded-md">Save</button>
-            <button type="button" class="w-full my-[10px] py-[10px] bg-blue-500 hover:bg-blue-700 text-white rounded-md">Show</button>
+            <button type="submit" class="w-full my-[10px] py-[10px] bg-blue-500 hover:bg-blue-700 text-white rounded-md"><%= btnSave %></button>
         </div>
     </form>
 </fieldset>
-
+<ul class="w-[50%] my-[75px] mx-auto drop-shadow-lg">
+    <% for (const property of properties) {
+        const prop = JSON.parse(property);
+            for (const key in prop) { %>
+        <li>
+            <span><%= key %> : </span>
+            <span><%= prop[key] %></span>
+        </li>
+    <% }
+    } %>
+</ul>
 </body>
 </html>

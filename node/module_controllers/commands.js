@@ -2,6 +2,8 @@ const fsSync = require("fs");
 const fs = require("fs/promises");
 const path = require("path");
 const chalk = require("chalk");
+const os = require("os");
+const { osInfo } = require("./db_initialstate.js");
 
 const createNewFile = async (dirPath, fileName, fileText = "") => {
     const newFilePath = path.resolve(dirPath, fileName);
@@ -29,17 +31,23 @@ const createNewDir = async newDirPath => {
     }
 };
 
-const writeIntoDB = async file => {
+const writeIntoDB = file => {
     const DB_PATH = "./os/osInfo.json";
-    const DB = require(DB_PATH) || [];
+    const DB = require(DB_PATH);
     DB.push(JSON.stringify(file));
     try {
-        await fs.writeFile(path.resolve(__dirname, DB_PATH), JSON.stringify(DB));
+        fsSync.writeFileSync(path.resolve(__dirname, DB_PATH), JSON.stringify(DB));
     } catch (error) {
         console.log(chalk.red(error));
     } finally {
         console.log(chalk.magenta("command completed"));
     }
+}
+
+const initDB = () => {
+    const DB = require("./os/osInfo.json");
+    const DB_INITIALSTATE = Array.isArray(DB) && DB.length ? DB : Object.keys(osInfo).map(key => JSON.stringify({[key]: osInfo[key]}));
+    fsSync.writeFileSync(path.resolve(__dirname, "./os/osInfo.json"), JSON.stringify(DB_INITIALSTATE));
 }
 
 const readFromFile = async filePath => {
@@ -112,6 +120,7 @@ module.exports = {
     createNewDir,
     createNewFile,
     writeIntoDB,
+    initDB,
     readFromFile,
     removeFile,
     removeDir,

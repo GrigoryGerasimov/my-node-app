@@ -1,50 +1,52 @@
-const http = require("http");
-const chalk = require("chalk");
+const express = require("express");
 const path = require("path");
-const { readFromFile, writeIntoDB } = require("../module_controllers/commands");
+const chalk = require("chalk");
+const { writeIntoDB, readFromFile, initDB } = require("../module_controllers/commands.js");
 
 const port = 3000;
 
-const server = http.createServer(async (req, res) => {
-    const startPage = await readFromFile(path.resolve(__dirname, "../index.html"));
-    const notfoundPage = await readFromFile(path.resolve(__dirname, "../notfound.html"));
-    if (req.method === "GET") {
-        res.setHeader("Content-Type", "text-html");
-        switch (req.url) {
-            case "/": {
-                res.writeHead(200);
-                res.end(startPage);
-                break;
-            }
-            case "/404": {
-                res.writeHead(404);
-                res.end(notfoundPage);
-                break;
-            }
-        }
-    } else if (req.method === "POST") {
-        let received;
-        req.on("data", data => {
-            received = Buffer.from(data).toString("utf-8");
-        });
-        req.on("end", async () => {
-            const param = received
-                .slice(0, received.indexOf("&"))
-                .split("=")[1];
-            const content = received
-                .slice(received.indexOf("&") + 1)
-                .split("=")[1]
-                .replace(/\+/g, " ");
-            await writeIntoDB({ [param]: content });
-            await readFromFile(path.join(__dirname, "../module_controllers/os/osInfo.json"));
-        });
-        res.writeHead(200, {
-            "Content-Type": "text/html"
-        })
-        res.end(startPage);
-    }
+const app = express();
+
+app.set("view engine", "ejs");
+app.set("views", path.resolve(__dirname, "../index"));
+
+app.use(express.urlencoded({
+    extended: true
+}));
+
+app.get("/", async (req, res) => {
+    initDB();
+    res.render("../index", {
+        title: "OS Info App",
+        legend: "Your Current OS",
+        labelProp: "Property",
+        labelVal: "Value",
+        btnSave: "Save",
+        properties: await readFromFile(path.resolve(__dirname, "../module_controllers/os/osInfo.json")),
+        createdStamp: false
+    });
+});
+app.get("/404", (req, res) => {
+    res.sendStatus(404);
+    // как вариант страницы 404, но со статусом 200
+    // res.sendFile(path.resolve(__dirname, "../notfound.html"));
+});
+app.post("/", async (req, res) => {
+    const { param, content } = req.body;
+    writeIntoDB({ [param]: content });
+    res.render("../index", {
+        title: "OS Info App",
+        legend: "Your Current OS",
+        labelProp: "Property",
+        labelVal: "Value",
+        btnSave: "Save",
+        btnGenInfo: "Generate OS info",
+        properties: await readFromFile(path.resolve(__dirname, "../module_controllers/os/osInfo.json")),
+        createdStamp: true
+    })
+    // res.send("Congratulations! Your information has been successfully added into OS database");
 });
 
-server.listen(port, () => {
-    console.log(chalk.greenBright(`Server is listening on port ${port}`));
+app.listen(port, () => {
+    console.log(chalk.greenBright(`Server started listening on port ${port}`));
 });

@@ -182,3 +182,7 @@ yargs.command({
 })
 
 yargs.parse();
+
+module.exports = {
+    osInfo
+};
